@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% load humanize %}
+{% block content %}
+
+
+<div class="nk-main">
+
+
+    <!-- START: Breadcrumbs -->
+    <div class="nk-gap-1"></div>
+    <div class="container">
+        <ul class="nk-breadcrumbs">
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><span class="fa fa-angle-right"></span></li>
+            <li><span><span class="text-main-1">Search</span> Results</span></li>
+        </ul>
+    </div>
+    <div class="nk-gap-1"></div>
+    <!-- END: Breadcrumbs -->
+
+
+    <div class="container">
+        <div class="row vertical-gap">
+            <div class="col-lg-8">
+
+
+
+                <!-- START: Posts Grid -->
+                <div class="nk-blog-grid">
+                    <div class="row">
+                        {% for post in posts %}
+                        <div class="col-md-6">
+                            <!-- START: Post -->
+                            <div class="nk-blog-post">
+                                <a href="{{ post.get_absolute_url }}" class="nk-post-img">
+                                    <img src="{{ post.thumbnail_main.url }}"
+                                        alt="Smell magic in the air. Or maybe barbecue">
+                                    <span class="nk-post-comments-count">{{ post.comment_count }}</span>
+
+                                    <span class="nk-post-categories">
+                                        {% for cat in categories %}
+                                        {% if cat in post.categories.all %}
+                                        <span class="bg-main-{{ forloop.counter }}">{{ cat }}</span>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </span>
+
+                                </a>
+                                <div class="nk-gap"></div>
+                                <h2 class="nk-post-title h4"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                                </h2>
+                                <div class="nk-post-by">
+                                    <img src="{{ post.author.profile_picture.url }}" alt="{{ post.author }}"
+                                        class="rounded-circle" width="35"> by <a
+                                        href="https://nkdev.info">{{ post.author }}</a> in
+                                    {{ post.timestamp | naturalday }}
+                                </div>
+                                <div class="nk-post-text">
+                                    <p>{{ post.overview }}</p>
+                                </div>
+                                <div class="nk-gap"></div>
+                                <a href="{{ post.get_absolute_url }}"
+                                    class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">Read
+                                    More</a>
+                                <div class="nk-post-date float-right"><span class="fa fa-calendar"></span>
+                                    {{ post.timestamp | naturalday }}
+                                </div>
+                            </div>
+                            <!-- END: Post -->
+                        </div>
+                        {% endfor %}
+                    </div>
+
+
+                    <!-- START: Pagination -->
+                    <div class="nk-pagination nk-pagination-center">
+                        {% if posts.has_previous %}
+                        <a href="?{{ page_request_var }}={{ posts.previous_page_number }}" class="nk-pagination-prev">
+                            <span class="ion-ios-arrow-back"></span>
+                        </a>
+                        {% endif %}
+                        <nav>
+                            <a class="nk-pagination-current"
+                                href="?{{ page_request_var }}={{ posts.number }}">{{ posts.number }}</a>
+                            <!-- <a href="#">2</a>
+                            <a href="#">3</a>
+                            <a href="#">4</a>
+                            <span>...</span>
+                            <a href="#">14</a> -->
+                        </nav>
+                        {% if posts.has_next %}
+                        <a href="?{{ page_request_var }}={{ posts.next_page_number }}" class="nk-pagination-next">
+                            <span class="ion-ios-arrow-forward"></span>
+                        </a>
+                        {% endif %}
+                    </div>
+                    <!-- END: Pagination -->
+                </div>
+                <!-- END: Posts Grid -->
+            </div>
+            {% include 'aside.html' %}
+        </div>
+    </div>
+
+    <div class="nk-gap-2"></div>
+
+    {% endblock content %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="nk-main">
+
+    <!-- START: Breadcrumbs -->
+    <div class="nk-gap-1"></div>
+    <div class="container">
+        <ul class="nk-breadcrumbs">
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><span class="fa fa-angle-right"></span></li>
+            <li><span><span class="text-main-1">{{ title }}</span> An Article</span></li>
+        </ul>
+    </div>
+    <div class="nk-gap-1"></div>
+    <!-- END: Breadcrumbs -->
+
+    <div class="container">
+        <div class="row vertical-gap">
+            <div class="col-lg-8">
+                {{ form.media }}
+                <form method="POST" action="." enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="nk-btn nk-btn-color-main-1">Submit</button>
+                </form>
+            </div>
+            {% include 'aside.html' %}
+        </div>
+    </div>
+
+    <div class="nk-gap-2"></div>
+
+    {% endblock content %}

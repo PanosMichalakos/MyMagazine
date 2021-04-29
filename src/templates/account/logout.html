@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static custom_tags i18n account socialaccount %}
+{% block content %}
+
+
+<div class="nk-main">
+
+
+    <!-- START: Breadcrumbs -->
+    <div class="nk-gap-1"></div>
+    <div class="container">
+        <ul class="nk-breadcrumbs">
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><span class="fa fa-angle-right"></span></li>
+            <li><span><span class="text-main-1">Sign</span> Out</span></li>
+        </ul>
+    </div>
+    <div class="nk-gap-1"></div>
+    <!-- END: Breadcrumbs -->
+
+
+    <div class="container">
+        <div class="text-center">
+            <div class="">
+                <!-- <h1>{% trans "Sign Out" %}</h1> -->
+
+                <h3>{% trans 'Are you sure you want to sign out?' %}</h3>
+
+                <form method="post" action="{% url 'account_logout' %}">
+                    {% csrf_token %}
+                    {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+                    <button type="submit"
+                        class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-hover-color-dark-3">{% trans 'Yes, Sign Out' %}</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="nk-gap-2"></div>
+
+    {% endblock content %}
